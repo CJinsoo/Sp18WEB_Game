@@ -1,1 +1,4 @@
 # Spring2018Web
+I started learning Java 1 and a half years ago at Dutchess Community College by taking two semesters of the basic Computer Science courses. Specifically, I took Intro to Computer Science/Programming and Advanced Programming & Data Structure which together were equivalent to CompSci 1 course at NewPaltz. Then I transfered to SUNY NewPaltz into Computer Science major. I took CompSci 2 (Data Structures) last semester. Also, I took Web Page Design last semester, so I learned HTML and CSS. I am currently taking an Independent study which will be counted toward Language Processing with Prof. Dos Reis using Python, so I am a bit familiar with the language but not complete.
+
+I am looking forward to learn how to take my idea into an actual user interacting app. With all the practical skills and underlying theories, I will 
