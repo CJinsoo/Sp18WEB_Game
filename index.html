@@ -10,9 +10,13 @@
 
     <title>Hello, world!</title>
     <style>
+      /*
       .col-lg-4 div {background:rgb(114, 114, 163);
               height:400px;
               }  
+      .navbar {
+        padding: 0 1rem;
+      }*/
     </style>
   </head>
   <body>
@@ -58,12 +62,25 @@
 
     <div class = "container"><!-- container-fluid -->
       <h1>Hello, world!</h1>
+      <div id = "alerts"></div>
+      <div class = "alert alert-success">
+        <b>New!</b> You can now choose your own pictures.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span><!-- 'x' works. Javascript -->
+        </button>
+      </div>
       <p>some paragraph</p>
 
       <div class = "row">
         <div class = "col-lg-4 col-sm-6">
             <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
+              <div class = "card-header">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span><!-- 'x' works. Javascript -->
+                  </button>
+              </div>
+                <img class="card-img-top" src="masakinewhair.gif" alt="Card image cap">
+                
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -73,7 +90,12 @@
         </div>
         <div class = "col-lg-4 col-sm-6">
             <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class = "card-header">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span><!-- 'x' works. Javascript -->
+                    </button>
+                </div>
+                <img class="card-img-top" src="masakinewhair.gif" alt="Card image cap">
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -82,14 +104,48 @@
               </div>
         </div>
         <div class = "col-lg-4 col-sm-6">
-          <div>Col3</div>
+            <div class="card">
+              <div class = "card-header">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span><!-- 'x' works. Javascript -->
+                  </button>
+              </div>
+                <img class="card-img-top" src="masakinewhair.gif" alt="Card image cap">
+                
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
         </div>
       </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src = "./dist/Controller.js"></script>
+    <script>
+      $(function() {
+        //var elements = $(".card .close");
+        var elements = $(".card .close, .alert .close");
+        elements.click(function(evt){
+          console.log(evt)
+          //elements.css({  fontSize:48, color: "#FFFF00"})
+          //$(this).css({  fontSize:48, color: "#FFFF00"});
+          //$(this).closest(".card").hide();
+          //$(this).closest(".card, .alert").hide();//now our jquery handles the alert, so we could take out bootstrap jquery
+          $(this).closest(".card, .alert").slideUp();
+        });
+        /*console.log(elements.length)*/
+       $.getJSON("https://bittrex.com/api/v1.1/public/getmarkets")//access data using jquery
+       .done(function(data){
+         console.log(data);
+       })
+      });/*execute this function whenever you're done. Calling a jquery function*/
+    </script><!-- implement after importing jquery because we're using jquery -->
   </body>
 </html>
