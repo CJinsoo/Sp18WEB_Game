@@ -15,17 +15,25 @@ export class Game {
         "Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that"
     ];
     Players: User[] = [
-        { Name: 'Jinsoo'}//Doctype. Player has to be an array of Users, but I didn't have to use new User()
+        { Name: 'Jinsoo Choi'},//Doctype. Player has to be an array of Users, but I didn't have to use new User()
+        { Name: 'Hyesoo Choi'},
+        { Name: 'Kira Han'}
     ];
+
+    //need identifier because variables are not passed through server.
+    Dealer: string = "Jinsoo Choi"
+
     Picture: string = 'https://media3.s-nbcnews.com/j/msnbc/components/video/201803/tdy_news_welker_trump_180315_1920x1080.nbcnews-ux-1080-600.jpg';
+    
     PlayedQuote: Quote[] = [
-        
+        { Text: "That's fake news", PlayerName: 'Hyesoo Choi', Chosen:false }
     ];
 
 }
 
 export class User {
     Name:string;
+    
 }
 
 export class Quote {
