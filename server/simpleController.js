@@ -25,8 +25,8 @@ server.listen(8080); //the server object listens on port 8080
 console.log("Listening on http://localhost:8080");
 */
 //express helps with routing. 
-var express = require('express')
-var app = express().router();
+var express = require('express');
+var app = express.Router();
 
 // respond with "hello world" when a GET request is made to the homepage
 //doesn't handle everything. only handles ones with exact path with"/""
@@ -56,10 +56,10 @@ module.exports = app
         next();
     })
     .get('/hello', function (req, res) {
-        res.send('World');//can't call send twice because it closes server.
+        res.write('World');//can't call send twice because it closes server.
         res.end();
     })
     .get('/goodbye', function (req, res) {//.push .patch ...
         res.write('New Paltz');//res.send()
         res.end();
-    }).listen(8080);
+    })
