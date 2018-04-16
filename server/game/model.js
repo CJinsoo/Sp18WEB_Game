@@ -123,13 +123,21 @@ function Game() {
     this.Players = [];
     this.DealerId = null;
 
-    this.PlayedQuote = [];
+    this.PlayedQuotes = [];
     this.Picture = null;
 
-    this.GetQuotes = () => QuotesStack.slice(iCurrentQuote, iCurrentQuote += 7);
+    this.GetQuotes = (playerId) => {
+        if(this.Players.some(x=> x.PlayerId == playerId)){//if any one of them is true, return true
+        
+        }else{//only if there's a new player, we are going to give a new stack
+            this.Players.push({ PlayerId: playerId, Name: playerId });
+            
+        }    
+        return QuotesStack.slice(iCurrentQuote, iCurrentQuote += 7);
+    }
     this.FlipPicture = () => this.Picture = PicturesStack[iCurrentPicture = (iCurrentPicture +1) % PicturesStack.length];
     
-    this.SubmitQuote = (test, playerId) => this.PlayedQuotes.push({ Text: text, PlayerId: playerId });//submit a quote
+    this.SubmitQuote = (text, playerId) => this.PlayedQuotes.push({ Text: text, PlayerId: playerId });//submit a quote
     this.ChooseQuote = text => {
         this.PlayedQuotes.find(x=>x.Text == text).Chosen = true;
         this.DealerId = this.Players[this.DealerId = (this.DealerId + 1) % this.Players.length]

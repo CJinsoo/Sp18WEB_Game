@@ -1,7 +1,10 @@
-<div class = "row">
+<div class = "row" *ngIf = "!Me">
+  <input #Name /><button (click) = "login(Name.value)" >Login</button>
+</div>
+<div class = "row" *ngIf = "Me">
   <div class = "col-md-4">
     <div class="card">
-    <div class = "card-header">My Quotes</div>
+    <div class = "card-header">My Quotes ({{Me.Name}})</div>
       <ul class="list-group list-group-flush my-quotes">
           <li *ngFor = "let quote of Me.MyQuotes" 
               (click) = "submitQuote($event, quote)"
@@ -17,22 +20,23 @@
     <div class="card bg-success mb-3">
       <div class = "card-header text-white">Played Quotes</div>
         <ul class="list-group list-group-flush">
-          <li *ngFor = "let quote of Model.PlayedQuote" 
+          <li *ngFor = "let quote of Model.PlayedQuotes" 
               [ngClass] = "{'list-group-item-success': quote.Chosen}"
               class="list-group-item d-flex justify-content-between align-items-center">
               {{quote.Text}}
             <span *ngIf = "!IsEveryoneDone() || (!IAmTheDealer() && !ChosenQuote())" 
                   class = "badge badge-light">hidden</span>
-            <span *ngIf = "ChosenQuote()" class = "badge badge-primary">{{quote.PlayerName}}</span>
+            <span *ngIf = "ChosenQuote()" class = "badge badge-primary">{{quote.PlayerId}}</span>
             <button *ngIf = "IsEveryoneDone() && IAmTheDealer() && !ChosenQuote()" 
                     (click) = "quote.Chosen = true"
                     class = "btn btn-sm btn-primary">
-                    Choose</button>
+                    Choose
+            </button>
           </li>
         </ul>
     </div>
     <div class = "card">
-      <img class = "card-img-top card-img-bottom" [src] = "Model.Picture.url"> <!-- [] around an attribute tells angular to bind data (without the curly braces {{Model.Picture}}(input text))- model pushing a view -->
+      <img class = "card-img-top card-img-bottom" *ngIf = "Model.Picture" [src] = "Model.Picture.url"> <!-- [] around an attribute tells angular to bind data (without the curly braces {{Model.Picture}}(input text))- model pushing a view -->
       <div class = "card-img-overlay" style = "text-align: center">
         <button class = "btn btn-success btn-lg" (click) = "flipPicture($event)">Flip the Picture</button>
       </div>

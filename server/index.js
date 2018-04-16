@@ -25,19 +25,27 @@ server.listen(8080); //the server object listens on port 8080
 console.log("Listening on http://localhost:8080");
 */
 //express helps with routing. 
+
+//imports
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');//the library body-parser
+
+const simple = require('./simpleController');
+const game = require('./game/controller');
+
 var app = express();
 
 const servername = "localhost";
 const port = 8080;
 
-const simple = require('./simpleController');
-const game = require('./game/controller');
+
 // respond with "hello world" when a GET request is made to the homepage
 //doesn't handle everything. only handles ones with exact path with"/""
 //These routers are just functions.
-app//middleware
+app//middleware - thing will work if there is "game" in the url
+    .use(bodyParser.json())//just an initializer -> it returns the function that actually does the parsing
+    .use(bodyParser.urlencoded({ extended: false}))//just an initialization/ extended - optional default
     .use('/', (req, res, next) => {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "*");//allow any server and any headers 

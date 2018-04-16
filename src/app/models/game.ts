@@ -1,22 +1,16 @@
 
 
 export class Game {
-    Players: User[] = [
-        { Name: 'Jinsoo Choi', MyQuotes: [] },//Doctype. Player has to be an array of Users, but I didn't have to use new User()
-        { Name: 'Hyesoo Choi', MyQuotes: []},
-        { Name: 'Kira Han', MyQuotes: []}
-    ];
+    Players: User[] = [];
 
     //need identifier because variables are not passed through server.
-    Dealer: string = "Jinsoo Choi"
+    DealerId: string;
 
     Picture: {
         url: string
     };
     
-    PlayedQuote: Quote[] = [
-        { Text: "That's fake news", PlayerName: 'Hyesoo Choi', Chosen:false }
-    ];
+    PlayedQuotes: Quote[] = [];
 
 } 
 
@@ -28,6 +22,6 @@ export class User {
 
 export class Quote {
     Text: string;
-    PlayerName: string;
+    PlayerId: string;
     Chosen: boolean = false;
 }
