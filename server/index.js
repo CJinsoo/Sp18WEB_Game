@@ -25,7 +25,8 @@ server.listen(8080); //the server object listens on port 8080
 console.log("Listening on http://localhost:8080");
 */
 //express helps with routing. 
-var express = require('express');
+const express = require('express');
+const path = require('path');
 var app = express();
 
 const servername = "localhost";
@@ -35,9 +36,20 @@ const simple = require('./simpleController');
 const game = require('./game/controller');
 // respond with "hello world" when a GET request is made to the homepage
 //doesn't handle everything. only handles ones with exact path with"/""
-app
+//These routers are just functions.
+app//middleware
+    .use('/', (req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "*");//allow any server and any headers 
+        next();//pass on the control to the next function that wants to access the stuff
+        //loaded synchronously but running asynchronously. middleware. 
+    })//'/' we are going to give to everything.
+    .use('/', express.static(path.join(__dirname, "../dist/")))//if file not found, go to the next
     .use('/simple', simple)
     .use('/game', game)
+    .use('/', (req, res, next) => {
+        res.sendFile(path.join(__dirname, "../dist/index.html"));
+    })
     .listen(port);
 
 console.log("running on http://" + servername + ":" + port)

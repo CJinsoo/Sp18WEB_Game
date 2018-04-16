@@ -123,7 +123,7 @@ function Game() {
     this.Players = [];
     this.DealerId = null;
 
-    this.PlayedQuotes = [];
+    this.PlayedQuote = [];
     this.Picture = null;
 
     this.GetQuotes = () => QuotesStack.slice(iCurrentQuote, iCurrentQuote += 7);

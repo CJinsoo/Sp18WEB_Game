@@ -3,7 +3,7 @@
     <div class="card">
     <div class = "card-header">My Quotes</div>
       <ul class="list-group list-group-flush my-quotes">
-          <li *ngFor = "let quote of Model.MyQuotes" 
+          <li *ngFor = "let quote of Me.MyQuotes" 
               (click) = "submitQuote($event, quote)"
               [ngClass] = "{ enabled: !MyPlayedQuote() }" 
               class="list-group-item">
@@ -32,9 +32,11 @@
         </ul>
     </div>
     <div class = "card">
-      <img class = "card-img-top card-img-bottom" [src] = "Model.Picture"> <!-- [] around an attribute tells angular to bind data (without the curly braces {{Model.Picture}}(input text))- model pushing a view -->
-    </div>
-  </div>
+      <img class = "card-img-top card-img-bottom" [src] = "Model.Picture.url"> <!-- [] around an attribute tells angular to bind data (without the curly braces {{Model.Picture}}(input text))- model pushing a view -->
+      <div class = "card-img-overlay" style = "text-align: center">
+        <button class = "btn btn-success btn-lg" (click) = "flipPicture($event)">Flip the Picture</button>
+      </div>
+  </div> 
   <div class = "col-md-4">
     <div class="card">
       <div class = "card-header">Other Players</div>
