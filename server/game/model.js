@@ -123,27 +123,31 @@ function Game() {
     this.Players = [];
     this.DealerId = null;
 
-    this.PlayedQuotes = [];
-    this.Picture = null;
-
+    this.PlayedQuotes = [];       
+    this.Picture = null;    
+ 
     this.GetQuotes = (playerId) => {
         if(this.Players.some(x=> x.PlayerId == playerId)){//if any one of them is true, return true
-        
+         
         }else{//only if there's a new player, we are going to give a new stack
+            if(this.DealerId == null)
+                this.DealerId = playerId;
             this.Players.push({ PlayerId: playerId, Name: playerId });
-            
-        }    
+             
+        }        
         return QuotesStack.slice(iCurrentQuote, iCurrentQuote += 7);
-    }
+    } 
     this.FlipPicture = () => this.Picture = PicturesStack[iCurrentPicture = (iCurrentPicture +1) % PicturesStack.length];
     
     this.SubmitQuote = (text, playerId) => this.PlayedQuotes.push({ Text: text, PlayerId: playerId });//submit a quote
-    this.ChooseQuote = text => {
-        this.PlayedQuotes.find(x=>x.Text == text).Chosen = true;
-        this.DealerId = this.Players[this.DealerId = (this.DealerId + 1) % this.Players.length]
 
+    this.ChooseQuote = (text)=> {
+        this.PlayedQuotes.find(x=>x.Text == text).Chosen = true;
+        console.log("executing choosequote"); 
+        //this.DealerId = this.Players[this.DealerId = (this.DealerId + 1) % this.Players.length]
+   
     }//does not return right away(using {})
-    
+        
 
 }//class allows you to put public functions (not fat arrow function), cleaner syntax for public functions, 
 //var g = Game(); without new, it is returning the existing object result of the function

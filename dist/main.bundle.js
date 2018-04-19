@@ -127,7 +127,7 @@ module.exports = ".my-quotes {\n    cursor: not-allowed;\n}\n\n.my-quotes .enabl
 /***/ "./src/app/game/game.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"row\" *ngIf = \"!Me\">\n  <input #Name /><button (click) = \"login(Name.value)\" >Login</button>\n</div>\n<div class = \"row\" *ngIf = \"Me\">\n  <div class = \"col-md-4\">\n    <div class=\"card\">\n    <div class = \"card-header\">My Quotes ({{Me.Name}})</div>\n      <ul class=\"list-group list-group-flush my-quotes\">\n          <li *ngFor = \"let quote of Me.MyQuotes\" \n              (click) = \"submitQuote($event, quote)\"\n              [ngClass] = \"{ enabled: !MyPlayedQuote() }\" \n              class=\"list-group-item\">\n              <!-- [ngClass] -> if it's not already selected, enable it. [] information from controller to the view. generate anything(string, array, json,...)-->\n              {{quote}}\n          </li>\n      </ul>\n    </div>\n  </div>\n  <div class = \"col-md-8\">\n    <div class=\"card bg-success mb-3\">\n      <div class = \"card-header text-white\">Played Quotes</div>\n        <ul class=\"list-group list-group-flush\">\n          <li *ngFor = \"let quote of Model.PlayedQuotes\" \n              [ngClass] = \"{'list-group-item-success': quote.Chosen}\"\n              class=\"list-group-item d-flex justify-content-between align-items-center\">\n              {{quote.Text}}\n            <span *ngIf = \"!IsEveryoneDone() || (!IAmTheDealer() && !ChosenQuote())\" \n                  class = \"badge badge-light\">hidden</span>\n            <span *ngIf = \"ChosenQuote()\" class = \"badge badge-primary\">{{quote.PlayerId}}</span>\n            <button *ngIf = \"IsEveryoneDone() && IAmTheDealer() && !ChosenQuote()\" \n                    (click) = \"quote.Chosen = true\"\n                    class = \"btn btn-sm btn-primary\">\n                    Choose\n            </button>\n          </li>\n        </ul>\n    </div>\n    <div class = \"card\">\n      <img class = \"card-img-top card-img-bottom\" *ngIf = \"Model.Picture\" [src] = \"Model.Picture.url\"> <!-- [] around an attribute tells angular to bind data (without the curly braces {{Model.Picture}}(input text))- model pushing a view -->\n      <div class = \"card-img-overlay\" style = \"text-align: center\">\n        <button class = \"btn btn-success btn-lg\" (click) = \"flipPicture($event)\">Flip the Picture</button>\n      </div>\n  </div> \n  <div class = \"col-md-4\">\n    <div class=\"card\">\n      <div class = \"card-header\">Other Players</div>\n        <ul class=\"list-group list-group-flush\">\n          <li *ngFor = \"let player of Model.Players\" class=\"list-group-item\">\n            <img style=\"height: 16px; width: 16px\" class=\"rounded\">\n            {{player.Name}}\n          </li>\n        </ul>\n      </div>\n  </div>\n</div>"
+module.exports = "<div class = \"row\" *ngIf = \"!Me\">\n  <input #Name /><button (click) = \"login(Name.value)\" >Login</button>\n</div>\n<div class = \"row\" *ngIf = \"Me\">\n  <div class = \"col-md-4\">\n    <div class=\"card\">\n    <div class = \"card-header\">My Quotes ({{Me.Name}})</div>\n      <ul class=\"list-group list-group-flush my-quotes\">\n          <li *ngFor = \"let quote of Me.MyQuotes\" \n              (click) = \"submitQuote($event, quote)\"\n              [ngClass] = \"{ enabled: !MyPlayedQuote() }\" \n              class=\"list-group-item\">\n              <!-- [ngClass] -> if it's not already selected, enable it. [] information from controller to the view. generate anything(string, array, json,...)-->\n              {{quote}}\n          </li>\n      </ul>\n    </div>\n  </div>\n  <div class = \"col-md-8\">\n    <div class=\"card bg-success mb-3\">\n      <div class = \"card-header text-white\">Played Quotes</div>\n        <ul class=\"list-group list-group-flush\">\n          <li *ngFor = \"let quote of Model.PlayedQuotes\" \n              [ngClass] = \"{'list-group-item-success': quote.Chosen}\"\n              class=\"list-group-item d-flex justify-content-between align-items-center\">\n              {{quote.Text}}\n            <span *ngIf = \"!IsEveryoneDone() || (!IAmTheDealer() && !ChosenQuote())\" \n                  class = \"badge badge-light\">hidden</span>\n            <span *ngIf = \"ChosenQuote()\" class = \"badge badge-primary\">{{quote.PlayerId}}</span>\n            <button *ngIf = \"IsEveryoneDone() && IAmTheDealer() && !ChosenQuote()\" \n                    (click) = \"chooseQuote($event, quote)\"\n                    class = \"btn btn-sm btn-primary\">\n                    Choose\n            </button>\n          </li>\n        </ul>\n    </div>\n    <div class = \"card\">\n      <img class = \"card-img-top card-img-bottom\" *ngIf = \"Model.Picture\" [src] = \"Model.Picture.url\"> <!-- [] around an attribute tells angular to bind data (without the curly braces {{Model.Picture}}(input text))- model pushing a view -->\n      <div class = \"card-img-overlay\" style = \"text-align: center\">\n        <button class = \"btn btn-success btn-lg\" (click) = \"flipPicture($event)\">Flip the Picture</button>\n      </div>\n  </div> \n  <div class = \"col-md-4\">\n    <div class=\"card\">\n      <div class = \"card-header\">Other Players</div>\n        <ul class=\"list-group list-group-flush\">\n          <li *ngFor = \"let player of Model.Players\" class=\"list-group-item\">\n            <img style=\"height: 16px; width: 16px\" class=\"rounded\">\n            {{player.Name}}\n          </li>\n        </ul>\n      </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -156,6 +156,7 @@ var GameComponent = /** @class */ (function () {
         this.Model = new game_1.Game();
         this._apiUrl = "http://localhost:8080/game";
         this.MyPlayedQuote = function () { return _this.Model.PlayedQuotes.find(function (x) { return x.PlayerId == _this.Me.Name; }); }; //null;
+        //WinPlayer = () => this.ChosenQuote().PlayerId;
         //give us the chosen quote (it actually belong to Model)
         this.ChosenQuote = function () { return _this.Model.PlayedQuotes.find(function (x) { return x.Chosen; }); };
         //belong to Model
@@ -177,24 +178,33 @@ var GameComponent = /** @class */ (function () {
     }; //this makes it local property. We don't have a local variable http in this function
     //we are replacing our Model whenever refreshing. We don't want to have 7 quotes every few seconds. 
     GameComponent.prototype.flipPicture = function (e) {
-        this.http.post(this._apiUrl + "/picture", {})
-            .subscribe(); //we update our model in a second
+        if (this.IAmTheDealer() == true && this.Model.PlayedQuotes.length == 0) {
+            this.http.post(this._apiUrl + "/picture", {})
+                .subscribe(); //we update our model in a second
+        }
     }; //rx.js is a functional programming, nothing happens until subscribe activates
+    GameComponent.prototype.chooseQuote = function (e, quote) {
+        e.preventDefault();
+        this.http.post(this._apiUrl + "/quote", { Winner: quote.PlayerId, Text: quote.Text })
+            .subscribe();
+    };
     //function on the component (in controller, we can specify as much, but in Model, we don't care)
     //add event object inside parameter. e -> DOM object
     GameComponent.prototype.submitQuote = function (e, text) {
         var _this = this;
         e.preventDefault(); //do not create a browser event. I've already handled it.
-        if (this.MyPlayedQuote())
-            return; //If I've summited a quote, don't do anything.
-        //falsy that returns false
-        //is not a boolean?? -> means : if there's anything there
-        this.http.post(this._apiUrl + "/quote", { Text: text, PlayerId: this.Me.Name })
-            .subscribe(function (data) {
-            if (data.json().sucess) {
-                _this.Me.MyQuotes.splice(_this.Me.MyQuotes.indexOf(text), 1); //Only if there's one quote submitted
-            }
-        });
+        if (!this.IAmTheDealer() == true) {
+            if (this.MyPlayedQuote())
+                return; //If I've summited a quote, don't do anything.
+            //falsy that returns false
+            //is not a boolean?? -> means : if there's anything there
+            this.http.post(this._apiUrl + "/quote", { Text: text, PlayerId: this.Me.Name })
+                .subscribe(function (data) {
+                if (data.json().sucess) {
+                    _this.Me.MyQuotes.splice(_this.Me.MyQuotes.indexOf(text), 1); //Only if there's one quote submitted
+                }
+            });
+        }
         //if not, push the quote and splice
         //this.Model.PlayedQuote.push();
     };

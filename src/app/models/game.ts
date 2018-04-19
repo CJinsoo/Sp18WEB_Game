@@ -12,6 +12,8 @@ export class Game {
     
     PlayedQuotes: Quote[] = [];
 
+    Winner: Quote["PlayerId"];
+
 } 
 
 export class User {

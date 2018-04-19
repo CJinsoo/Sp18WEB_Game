@@ -30,18 +30,27 @@ export class GameComponent implements OnInit {
       .subscribe(data => this.Model = data.json())
   } //this makes it local property. We don't have a local variable http in this function
   //we are replacing our Model whenever refreshing. We don't want to have 7 quotes every few seconds. 
-  
+
   flipPicture(e: MouseEvent){//could ignore parameter
-    this.http.post(this._apiUrl + "/picture", {})
-      .subscribe();//we update our model in a second
+    if( this.IAmTheDealer() == true && this.Model.PlayedQuotes.length == 0 ){
+      this.http.post(this._apiUrl + "/picture", {})
+        .subscribe();//we update our model in a second
+    } 
   }//rx.js is a functional programming, nothing happens until subscribe activates
+
+  chooseQuote(e: MouseEvent, quote: Quote){
+    e.preventDefault();
+    this.http.post(this._apiUrl + "/quote",{Winner: quote.PlayerId, Text:quote.Text})
+        .subscribe();
+   
+  }
 
   //function on the component (in controller, we can specify as much, but in Model, we don't care)
   //add event object inside parameter. e -> DOM object
   submitQuote(e: MouseEvent, text: string) {
     e.preventDefault();//do not create a browser event. I've already handled it.
-
-    if(this.MyPlayedQuote()) return;//If I've summited a quote, don't do anything.
+    if(!this.IAmTheDealer()==true){
+      if(this.MyPlayedQuote()) return;//If I've summited a quote, don't do anything.
     //falsy that returns false
     //is not a boolean?? -> means : if there's anything there
 
@@ -52,6 +61,7 @@ export class GameComponent implements OnInit {
         }
       });
 
+    }
     //if not, push the quote and splice
     //this.Model.PlayedQuote.push();
     
@@ -75,6 +85,7 @@ export class GameComponent implements OnInit {
 
   MyPlayedQuote = () => this.Model.PlayedQuotes.find( x => x.PlayerId == this.Me.Name ); //null;
 
+  //WinPlayer = () => this.ChosenQuote().PlayerId;
   //give us the chosen quote (it actually belong to Model)
   ChosenQuote = () => this.Model.PlayedQuotes.find( x => x.Chosen );
   //belong to Model
